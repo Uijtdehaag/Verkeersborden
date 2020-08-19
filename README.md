@@ -6,4 +6,4 @@ https://docs.ndw.nu/api/trafficsigns/nl/index.html
 Description Traffic signs download API
 https://docs.ndw.nu/api/trafficsigns/en/index.html
 
-Het python script traffic_sings.py zal de verkeersborden API aanroepen en alle gegevens in een CSV bestand wegschrijven.
+Het python script traffic_signs.py zal de verkeersborden API aanroepen en alle gegevens in een CSV bestand wegschrijven.
