@@ -25,7 +25,6 @@ def SaveLastOffset( filename, Offset):
     idFile.write("{}".format(Offset))
     idFile.close()
 
-
 pdObjNorm = None
 status_code = 200
 
@@ -39,7 +38,9 @@ object_count = 0
 while (status_code == 200 and offset != last_offset):
     last_offset = offset
     
-    url = 'https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v1/events?offset={}&limit=100'.format(offset)
+    #filter for roosendaal (GM1674)
+    towncode='GM1674'
+    url = 'https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v1/events?offset={}&limit=100&town-code={}'.format(offset,towncode)
     response = requests.get(url, verify=False)
     status_code = response.status_code
     print( "{} Status:{} Objects:{}".format(url, status_code, object_count) )
@@ -51,12 +52,12 @@ while (status_code == 200 and offset != last_offset):
         else:
             pdObjNorm = pdObjNorm.append(json_normalize(dataJSON))
         offset = pdObjNorm['publication_timestamp'].max()
-
-        SaveLastOffset(StoreOffSetFilename, offset)
-
+                     
         if os.path.isfile(exportFileName):
             pdObjNorm.to_csv(exportFileName,index=False,sep=';', mode='a', header=False)
         else:
             pdObjNorm.to_csv(exportFileName,index=False,sep=';', mode='w', header=True)
+
+        SaveLastOffset(StoreOffSetFilename, offset)
 
 
